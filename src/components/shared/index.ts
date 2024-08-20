@@ -1,3 +1,4 @@
+import { Product } from "@prisma/client";
 export { Categories } from "./categories";
 export { Container } from "./container";
 export { FilterCheckBox } from "./filter-checkbox";
@@ -7,3 +8,5 @@ export { SearchInput } from "./search-input";
 export { SortPopup } from "./sort-popup";
 export { Title } from "./title";
 export { TopBar } from "./top-bar";
+export { PizzaImage } from "./pizza-image";
+export * from "./modals/choose-product-modal";
