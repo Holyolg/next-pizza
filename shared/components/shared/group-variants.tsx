@@ -3,7 +3,7 @@
 import { cn } from "../../lib/utils";
 import { FC } from "react";
 
-type Variant = {
+export type Variant = {
 	name: string;
 	value: string;
 	disabled?: boolean;
@@ -15,7 +15,6 @@ type Props = {
 	value?: Variant["value"];
 	className?: string;
 };
-
 export const GroupVariants: FC<Props> = ({
 	items,
 	onClick,

@@ -9,4 +9,5 @@ export { SortPopup } from "./sort-popup";
 export { Title } from "./title";
 export { TopBar } from "./top-bar";
 export { PizzaImage } from "./pizza-image";
+export { Ingredients } from "./ingredients";
 export * from "./modals/choose-product-modal";
