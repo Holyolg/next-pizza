@@ -10,4 +10,6 @@ export { Title } from "./title";
 export { TopBar } from "./top-bar";
 export { PizzaImage } from "./pizza-image";
 export { Ingredients } from "./ingredients";
+export { CartButton } from "./cart-button";
+export { CartDrawer } from "./cart-drawer";
 export * from "./modals/choose-product-modal";
