@@ -1,3 +1,4 @@
+import { CountButton } from "./count-button";
 import { Product } from "@prisma/client";
 export { Categories } from "./categories";
 export { Container } from "./container";
@@ -11,5 +12,6 @@ export { TopBar } from "./top-bar";
 export { PizzaImage } from "./pizza-image";
 export { Ingredients } from "./ingredients";
 export { CartButton } from "./cart-button";
+export { CountButton } from "./count-button";
 export { CartDrawer } from "./cart-drawer";
 export * from "./modals/choose-product-modal";

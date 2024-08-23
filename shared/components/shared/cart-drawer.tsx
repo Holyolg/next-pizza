@@ -8,7 +8,7 @@ import {
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/shared/components/ui/sheet";
 import { cn } from "../../lib/utils";
 import Link from "next/link";
 import { Button } from "../ui";
@@ -33,7 +33,7 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 				</SheetHeader>
 
 				<SheetFooter>
-					<div className="w-full">
+					<div className="w-full mb-4">
 						<div className="flex mb-4">
 							<span className="flex flex-1 text-lg text-neutral-500">
 								Итого
