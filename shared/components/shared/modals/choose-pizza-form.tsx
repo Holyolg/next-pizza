@@ -31,6 +31,7 @@ export const ChoosePizzaForm: FC<Props> = ({
 		type,
 		selectedIngredients,
 		availableSizes,
+		currentItemId,
 		setSize,
 		setType,
 		addIngredient,

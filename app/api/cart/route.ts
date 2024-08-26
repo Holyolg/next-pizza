@@ -1,3 +1,7 @@
+import { Ingredient } from "@prisma/client";
+import { findOrCreateCart } from "../../../shared/lib/find-or-create-cart";
+import { updateCartTotalAmount } from "../../../shared/lib/update-cart-total-amount";
+import { CreateCartItemValues } from "../../../shared/services/dto/cart-dto";
 import { prisma } from "./../../../prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
@@ -36,6 +40,68 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(userCart);
 	} catch (error) {
-		console.log(error);
+		console.log("[CART_GET] server error", error);
+		return NextResponse.json(
+			{ error: "Не удалось получить корзину" },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function POST(req: NextRequest) {
+	try {
+		let token = req.cookies.get("cartToken")?.value;
+
+		if (!token) {
+			token = crypto.randomUUID();
+		}
+
+		const userCart = await findOrCreateCart(token);
+
+		const data = (await req.json()) as CreateCartItemValues;
+
+		const findCartItem = await prisma.cartItem.findFirst({
+			where: {
+				cartId: userCart.id,
+				productItemId: data.productItemId,
+				ingredients: { every: { id: { in: data.ingredients } } },
+			},
+		});
+
+		if (findCartItem) {
+			await prisma.cartItem.update({
+				where: {
+					id: findCartItem.id,
+				},
+				data: {
+					quantity: findCartItem.quantity + 1,
+				},
+			});
+		}
+
+		await prisma.cartItem.create({
+			data: {
+				cartId: userCart.id,
+				productItemId: data.productItemId,
+				quantity: 1,
+				ingredients: {
+					connect: data.ingredients?.map((id) => ({
+						id,
+					})),
+				},
+			},
+		});
+
+		const updateUserCart = await updateCartTotalAmount(token);
+
+		const response = NextResponse.json(updateUserCart);
+		response.cookies.set("cartToken", token);
+		return response;
+	} catch (error) {
+		console.log("[CART_POST] server error", error);
+		return NextResponse.json(
+			{ error: "Не удалось создать корзину" },
+			{ status: 500 }
+		);
 	}
 }

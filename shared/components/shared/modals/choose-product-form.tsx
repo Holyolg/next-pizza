@@ -6,13 +6,13 @@ import { Button } from "../../ui";
 type Props = {
 	name: string;
 	imageUrl: string;
-	onClickAdd?: VoidFunction;
+	onSubmit?: (itemId: number, ingredients: number[]) => void;
 	className?: string;
 };
 export const ChooseProductForm: FC<Props> = ({
 	name,
 	imageUrl,
-	onClickAdd,
+	onSubmit,
 	className,
 }) => {
 	const textDetails = "30 см, традиционное тесто 30";

@@ -27,14 +27,19 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 	children,
 	className,
 }) => {
-	const [totalAmount, fetchCartItems, items, updateItemQuantity] = useCartStore(
-		(state) => [
-			state.totalAmount,
-			state.fetchCartItems,
-			state.items,
-			state.updateItemQuantity,
-		]
-	);
+	const [
+		totalAmount,
+		fetchCartItems,
+		updateItemQuantity,
+		removeCartItem,
+		items,
+	] = useCartStore((state) => [
+		state.totalAmount,
+		state.fetchCartItems,
+		state.updateItemQuantity,
+		state.removeCartItem,
+		state.items,
+	]);
 
 	useEffect(() => {
 		fetchCartItems();
@@ -49,6 +54,10 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 		updateItemQuantity(id, newQuantity);
 	};
 
+	const onClickRemoveButton = (id: number) => {
+		removeCartItem(id);
+	};
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>{children}</SheetTrigger>
@@ -57,7 +66,7 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 					<SheetTitle>
 						В корзине
 						<span className="font-bold">
-							{items.length > 1
+							{items.length > 1 && items.length === 0
 								? ` ${items.length} товаров`
 								: ` ${items.length} товар`}
 						</span>
@@ -85,6 +94,7 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 								onClickCountButton={(type) =>
 									onClickCountButton(item.id, item.quantity, type)
 								}
+								onClickRemoveButton={() => onClickRemoveButton(item.id)}
 							/>
 						</div>
 					))}
