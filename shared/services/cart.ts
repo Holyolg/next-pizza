@@ -1,0 +1,13 @@
+import { CartDTO } from "../services/dto/cart-dto";
+import { axiosInstance } from "./instance";
+export const getCart = async (): Promise<CartDTO> => {
+	return (await axiosInstance.get<CartDTO>("/cart")).data;
+};
+
+export const updateItemQuantity = async (
+	itemId: number,
+	quantity: number
+): Promise<CartDTO> => {
+	return (await axiosInstance.patch<CartDTO>("/cart/" + itemId, { quantity }))
+		.data;
+};
