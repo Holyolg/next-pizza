@@ -1,8 +1,7 @@
-import { ProductItem } from "@prisma/client";
-import { Api } from "./../services/api-client";
 import { create } from "zustand";
 import { getCartDetails } from "../lib/get-cart-details";
 import { CreateCartItemValues } from "../services/dto/cart-dto";
+import { Api } from "./../services/api-client";
 
 export type CartStateItem = {
 	id: number;
@@ -23,7 +22,7 @@ export interface CartState {
 
 	fetchCartItems: () => Promise<void>;
 	updateItemQuantity: (id: number, quantity: number) => Promise<void>;
-	addCartItem: (values: any) => Promise<void>;
+	addCartItem: (values: CreateCartItemValues) => Promise<void>;
 	removeCartItem: (id: number) => Promise<void>;
 }
 

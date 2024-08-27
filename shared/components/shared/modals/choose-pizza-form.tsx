@@ -1,21 +1,22 @@
-import { FC } from "react";
-import { Title } from "../title";
-import { cn } from "../../../lib/utils";
-import { PizzaImage } from "../pizza-image";
-import { Button } from "../../ui";
-import { GroupVariants } from "../group-variants";
-import { PizzaSize, PizzaType, pizzaTypes } from "../../../constants/pizza";
 import { Ingredient, ProductItem } from "@prisma/client";
-import { Ingredients } from "../ingredients";
+import { FC } from "react";
+import { PizzaSize, PizzaType, pizzaTypes } from "../../../constants/pizza";
 import { usePizzaOptions } from "../../../hooks";
 import { getPizzaDetails } from "../../../lib/get-pizza-details";
+import { cn } from "../../../lib/utils";
+import { Button } from "../../ui";
+import { GroupVariants } from "../group-variants";
+import { Ingredients } from "../ingredients";
+import { PizzaImage } from "../pizza-image";
+import { Title } from "../title";
 
 type Props = {
 	name: string;
 	imageUrl: string;
 	ingredients: Ingredient[];
 	productItems: ProductItem[];
-	onClickAddCart?: VoidFunction;
+	loading: boolean;
+	onSubmit: (itemId: number, ingredients: number[]) => void;
 	className?: string;
 };
 export const ChoosePizzaForm: FC<Props> = ({
@@ -23,7 +24,8 @@ export const ChoosePizzaForm: FC<Props> = ({
 	imageUrl,
 	ingredients,
 	productItems,
-	onClickAddCart,
+	loading,
+	onSubmit,
 	className,
 }) => {
 	const {
@@ -46,7 +48,9 @@ export const ChoosePizzaForm: FC<Props> = ({
 	);
 
 	const handleClickAdd = () => {
-		onClickAddCart?.();
+		if (currentItemId) {
+			onSubmit(currentItemId, Array.from(selectedIngredients));
+		}
 	};
 
 	return (
@@ -62,19 +66,19 @@ export const ChoosePizzaForm: FC<Props> = ({
 					<GroupVariants
 						items={availableSizes}
 						value={String(size)}
-						onClick={(value) => setSize(Number(value) as PizzaSize)}
+						onClick={value => setSize(Number(value) as PizzaSize)}
 					/>
 
 					<GroupVariants
 						items={pizzaTypes}
 						value={String(type)}
-						onClick={(value) => setType(Number(value) as PizzaType)}
+						onClick={value => setType(Number(value) as PizzaType)}
 					/>
 				</div>
 
 				<div className="bg-gray-50 flex py-5 justify-center rounded-md h-[420px] overflow-auto scrollbar">
 					<div className="grid grid-cols-3 gap-5">
-						{ingredients.map((ingredient) => (
+						{ingredients.map(ingredient => (
 							<Ingredients
 								key={ingredient.id}
 								imageUrl={ingredient.imageUrl}
@@ -88,8 +92,10 @@ export const ChoosePizzaForm: FC<Props> = ({
 				</div>
 
 				<Button
+					loading={loading}
 					className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
-					onClick={handleClickAdd}>
+					onClick={handleClickAdd}
+				>
 					Добавить в корзину за {totalPrice} ₽
 				</Button>
 			</div>

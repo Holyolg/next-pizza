@@ -1,7 +1,7 @@
+import { useRouter } from "next/navigation";
+import qs from "qs";
 import { useEffect } from "react";
 import { Filters } from "./use-filters";
-import qs from "qs";
-import { useRouter } from "next/navigation";
 
 export const useQueryFilters = (filters: Filters) => {
 	const router = useRouter();
@@ -15,5 +15,5 @@ export const useQueryFilters = (filters: Filters) => {
 
 		const query = qs.stringify(params, { arrayFormat: "comma" });
 		router.push(`?${query}`, { scroll: false });
-	}, [filters, router]);
+	}, [filters]);
 };

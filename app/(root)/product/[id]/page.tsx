@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
+import { prisma } from "../../../../prisma/prisma-client";
 import {
 	Container,
 	PizzaImage,
 	Title,
 } from "../../../../shared/components/shared";
 import { GroupVariants } from "../../../../shared/components/shared/group-variants";
-import { prisma } from "../../../../prisma/prisma-client";
 
 export default async function ProductPage({
 	params: { id },
@@ -36,7 +36,7 @@ export default async function ProductPage({
 					</p>
 
 					<GroupVariants
-						selectedValue={"2"}
+						value={"2"}
 						items={[
 							{
 								name: "маленькая",
