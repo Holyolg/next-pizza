@@ -13,4 +13,6 @@ export { ProductForm } from "./product-form";
 export { SearchInput } from "./search-input";
 export { SortPopup } from "./sort-popup";
 export { Title } from "./title";
+export { WhiteBlock } from "./white-block";
 export { TopBar } from "./top-bar";
+export { CheckoutItemDetails } from "./checkout-item-details";
