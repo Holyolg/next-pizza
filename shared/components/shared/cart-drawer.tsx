@@ -10,13 +10,13 @@ import {
 	SheetTrigger,
 } from "@/shared/components/ui/sheet";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useCart } from "@/shared/hooks";
 import { getCartItemDetails } from "@/shared/lib";
 import { cn } from "@/shared/lib/utils";
-import { useCartStore } from "@/shared/store/index";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { FC, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { Title } from ".";
 import { Button } from "../ui";
 import { CartDrawerItem } from "./cart-drawer-item";
@@ -29,23 +29,9 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 	children,
 	className,
 }) => {
-	const [
-		totalAmount,
-		fetchCartItems,
-		updateItemQuantity,
-		removeCartItem,
-		items,
-	] = useCartStore(state => [
-		state.totalAmount,
-		state.fetchCartItems,
-		state.updateItemQuantity,
-		state.removeCartItem,
-		state.items,
-	]);
+	const [redirecting, setRedirecting] = useState(false);
 
-	useEffect(() => {
-		fetchCartItems();
-	}, []);
+	const { totalAmount, updateItemQuantity, removeCartItem, items } = useCart();
 
 	const onClickCountButton = (
 		id: number,
@@ -116,15 +102,11 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 										<CartDrawerItem
 											id={item.id}
 											imageUrl={item.imageUrl}
-											details={
-												item.pizzaSize && item.pizzaType
-													? getCartItemDetails(
-															item.ingredients,
-															item.pizzaType as PizzaType,
-															item.pizzaSize as PizzaSize
-													  )
-													: ""
-											}
+											details={getCartItemDetails(
+												item.ingredients,
+												item.pizzaType as PizzaType,
+												item.pizzaSize as PizzaSize
+											)}
 											disabled={item.disabled}
 											name={item.name}
 											price={item.price}
@@ -147,8 +129,13 @@ export const CartDrawer: FC<React.PropsWithChildren<Props>> = ({
 
 										<span className="font-bold text-lg">{totalAmount}₽</span>
 									</div>
-									<Link href="/cart">
-										<Button type="submit" className="w-full h-12 text-base">
+									<Link href="/checkout">
+										<Button
+											onClick={() => setRedirecting(true)}
+											loading={redirecting}
+											type="submit"
+											className="w-full h-12 text-base"
+										>
 											Оформить заказ <ArrowRight className="w-5 ml-2" />
 										</Button>
 									</Link>

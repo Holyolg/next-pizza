@@ -1,24 +1,21 @@
 "use client";
-import { Input, RangeSlider } from "../ui";
-import React, { FC } from "react";
+import { FC } from "react";
 import { Title } from ".";
+import { useFilters, useIngredients, useQueryFilters } from "../../hooks";
+import { Input, RangeSlider } from "../ui";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
-import { useQueryFilters, useFilters, useIngredients } from "../../hooks";
-import { useRouter } from "next/navigation";
 
 type Props = {
 	className?: string;
 };
 
 export const Filters: FC<Props> = ({ className }) => {
-	const router = useRouter();
-
 	const { ingredients, loading } = useIngredients();
 	const filters = useFilters();
 
 	useQueryFilters(filters);
 
-	const items = ingredients.map((item) => ({
+	const items = ingredients.map(item => ({
 		value: String(item.id),
 		text: item.name,
 	}));
@@ -70,7 +67,7 @@ export const Filters: FC<Props> = ({ className }) => {
 						min={0}
 						max={1000}
 						value={String(filters.prices.priceFrom)}
-						onChange={(e) =>
+						onChange={e =>
 							filters.setPrices("priceFrom", Number(e.target.value))
 						}
 					/>
@@ -80,9 +77,7 @@ export const Filters: FC<Props> = ({ className }) => {
 						max={1000}
 						placeholder="1000"
 						value={String(filters.prices.priceTo)}
-						onChange={(e) =>
-							filters.setPrices("priceTo", Number(e.target.value))
-						}
+						onChange={e => filters.setPrices("priceTo", Number(e.target.value))}
 					/>
 				</div>
 				<RangeSlider
