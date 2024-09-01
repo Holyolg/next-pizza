@@ -8,15 +8,15 @@ import { WhiteBlock } from "../white-block";
 interface Props {
   items: CartStateItem[];
   onClickCountButton: (id: number, quantity: number, type: "plus" | "minus") => void;
-  removeCartItem: (id: number) => void;
-  loading?: boolean;
+  onClickRemoveButton: (id: number) => void;
+  loading: boolean;
   className?: string;
 }
 
 export const CheckoutCart: React.FC<Props> = ({
   items,
   onClickCountButton,
-  removeCartItem,
+  onClickRemoveButton,
   loading,
   className,
 }) => {
@@ -38,7 +38,8 @@ export const CheckoutCart: React.FC<Props> = ({
             quantity={item.quantity}
             disabled={item.disabled}
             onClickCountButton={type => onClickCountButton(item.id, item.quantity, type)}
-            onClickRemove={() => removeCartItem(item.id)}
+            onClickRemoveButton={() => onClickRemoveButton(item.id)}
+            loading={loading}
           />
         ))}
       </div>

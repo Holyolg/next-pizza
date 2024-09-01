@@ -1,6 +1,7 @@
 export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { Categories } from "./categories";
+export * from "./checkout";
 export { CheckoutItem } from "./checkout-item";
 export { CheckoutItemDetails } from "./checkout-item-details";
 export { CheckoutSidebar } from "./checkout-sidebar";
@@ -12,7 +13,7 @@ export { Filters } from "./filters";
 export * from "./from";
 export { Header } from "./header";
 export { Ingredients } from "./ingredients";
-export * from "./modals/choose-product-modal";
+export * from "./modals";
 export { PizzaImage } from "./pizza-image";
 export { ProductForm } from "./product-form";
 export { RequiredSymbol } from "./required-symbol";
