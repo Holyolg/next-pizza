@@ -1,3 +1,4 @@
+export { AddressInput } from "./address-input";
 export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { Categories } from "./categories";

@@ -128,7 +128,7 @@ model Order {
     token String
 
     totalAmount Int
-    status      OrderStatus
+    status      OrderStatus @default(PENDING)
     paymentId   String?
 
     items Json

@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { createOrder } from "@/app/api/actions";
 import {
   CheckoutAddressForm,
   CheckoutCart,
@@ -29,6 +30,7 @@ export default function CheckoutPage() {
   });
 
   const onSubmit = (data: TCheckoutFormValues) => {
+    createOrder(data);
     console.log(data);
   };
   const onClickCountButton = (id: number, quantity: number, type: "plus" | "minus") => {
@@ -55,9 +57,9 @@ export default function CheckoutPage() {
                 loading={loading}
               />
 
-              <CheckoutPersonalForm />
+              <CheckoutPersonalForm className={loading ? "opacity-50 pointer-events-none" : ""} />
 
-              <CheckoutAddressForm />
+              <CheckoutAddressForm className={loading ? "opacity-50 pointer-events-none" : ""} />
             </div>
 
             <div className="w-[450px]">

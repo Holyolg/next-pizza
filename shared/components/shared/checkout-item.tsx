@@ -5,7 +5,6 @@ import { cn } from "../../lib/utils";
 import * as CartItem from "../cart-item-details";
 import { CartItemDetailsCountButton } from "../cart-item-details/cart-item-details-count-button";
 import { CartItemProps } from "../cart-item-details/cart-item-details.types";
-import { Skeleton } from "../ui";
 
 interface Props extends CartItemProps {
   onClickCountButton?: (type: "plus" | "minus") => void;
@@ -28,29 +27,6 @@ export const CheckoutItem: FC<Props> = ({
   onClickRemoveButton,
   className,
 }) => {
-  if (loading) {
-    return (
-      <>
-        {...Array(3)
-          .fill(0)
-          .map((_, index) => (
-            <div
-              className="flex flex-1 items-center justify-between
-						"
-              key={index}>
-              <Skeleton className="size-[60px] rounded-full" />
-              <Skeleton className="h-6 w-[60%]" />
-              <Skeleton className="h-6 w-10 " />
-              <Skeleton className="size-8  rounded-lg" />
-              <Skeleton className="h-6 w-10 " />
-              <Skeleton className="size-8  rounded-lg" />
-              <Skeleton className="size-4 " />
-            </div>
-          ))}
-      </>
-    );
-  }
-
   return (
     <div
       className={cn(
@@ -67,7 +43,7 @@ export const CheckoutItem: FC<Props> = ({
 
       <div className="flex items-center gap-5 ml-20">
         <CartItemDetailsCountButton onClick={onClickCountButton} value={quantity} />
-        <button onClick={onClickRemoveButton}>
+        <button type="button" onClick={onClickRemoveButton}>
           <X className="text-gray-400 cursor-pointer hover:text-gray-600" size={20} />
         </button>
       </div>
