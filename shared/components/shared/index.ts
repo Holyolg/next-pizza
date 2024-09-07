@@ -12,7 +12,7 @@ export { CountButton } from "./count-button";
 export * from "./email-templates";
 export { FilterCheckBox } from "./filter-checkbox";
 export { Filters } from "./filters";
-export * from "./from";
+export * from "./form";
 export { Header } from "./header";
 export { Ingredients } from "./ingredients";
 export * from "./modals";

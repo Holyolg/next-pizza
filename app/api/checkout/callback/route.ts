@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const items = order?.items as unknown as CartItemDTO[];
+    const items = JSON.parse(order?.items as string) as CartItemDTO[];
 
     // отправка письма
     if (isSucceeded) {
