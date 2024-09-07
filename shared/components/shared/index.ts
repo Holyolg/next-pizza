@@ -18,6 +18,7 @@ export { Ingredients } from "./ingredients";
 export * from "./modals";
 export { PizzaImage } from "./pizza-image";
 export { ProductForm } from "./product-form";
+export { Providers } from "./providers";
 export { RequiredSymbol } from "./required-symbol";
 export { SearchInput } from "./search-input";
 export { SortPopup } from "./sort-popup";
