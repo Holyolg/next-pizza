@@ -9,6 +9,7 @@ export { CheckoutSidebar } from "./checkout-sidebar";
 export { ClearButton } from "./clear-button";
 export { Container } from "./container";
 export { CountButton } from "./count-button";
+export * from "./email-templates";
 export { FilterCheckBox } from "./filter-checkbox";
 export { Filters } from "./filters";
 export * from "./from";
