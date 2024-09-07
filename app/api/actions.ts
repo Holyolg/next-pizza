@@ -2,6 +2,7 @@
 
 import { prisma } from "@/prisma/prisma-client";
 import { PayOrderTemplate } from "@/shared/components";
+import { VerificationCodeTemplate } from "@/shared/components/shared/email-templates/verification-code";
 import { TCheckoutFormValues } from "@/shared/constants";
 import { createPayment, sendEmail } from "@/shared/lib";
 import { getUserSession } from "@/shared/lib/get-user-session";
@@ -144,6 +145,50 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
     });
   } catch (error) {
     console.error("Error [UPDATE_USER]", error);
+    throw error;
+  }
+}
+
+export async function registerUser(body: Prisma.UserCreateInput) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+      },
+    });
+    if (user) {
+      if (!user.verified) {
+        throw new Error("почта не подтверждена");
+      }
+      throw new Error("пользователь уже зарегистрирован");
+    }
+
+    const createUser = await prisma.user.create({
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: hashSync(body.password, 10),
+      },
+    });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createUser.id,
+      },
+    });
+
+    await sendEmail(
+      createUser.email,
+      "Пипца / Подтверждение регистрации",
+      VerificationCodeTemplate({
+        code,
+      })
+    );
+  } catch (error) {
+    console.error("Error [REGISTER_USER]", error);
     throw error;
   }
 }
