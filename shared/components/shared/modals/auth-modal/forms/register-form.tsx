@@ -35,6 +35,7 @@ export const RegisterForm: FC<Props> = ({ onClose, onClickRegisterLogin }) => {
       onClose?.();
     } catch (error) {
       console.error("Error [REGISTER]", error);
+
       toast.error("Неверный E-mail или пароль", { icon: "❌" });
     }
   };

@@ -24,11 +24,22 @@ export const Header: FC<Props> = ({ className, hasSearch = true, hasCart = true 
   const { data: session } = useSession();
 
   useEffect(() => {
+    let toastMessage = "";
+
     if (searchParams.has("paid")) {
-      router.push(pathname);
+      toastMessage = "Заказ успешно оплачен. Информация отправлена на почту";
+    }
+    if (searchParams.has("verified")) {
+      toastMessage = "Почта успешно подтверждена";
+    }
+
+    if (toastMessage) {
       setTimeout(() => {
-        toast.success("Заказ успешно оплачен. Информация о заказе отправлена на почту");
-      }, 500);
+        router.replace("/");
+        toast.success(toastMessage, {
+          duration: 3000,
+        });
+      }, 1000);
     }
   }, []);
 
