@@ -6,10 +6,12 @@ type PriceProps = {
 	priceFrom?: number;
 	priceTo?: number;
 };
+
 interface QueryFilters extends PriceProps {
 	pizzaTypes: string;
 	sizes: string;
 	ingredients: string;
+	sort?: string;
 }
 
 export interface Filters {
@@ -17,6 +19,7 @@ export interface Filters {
 	pizzaTypes: Set<string>;
 	selectedIngredients: Set<string>;
 	prices: PriceProps;
+	sort?: string;
 }
 
 interface ReturnProps extends Filters {
@@ -24,11 +27,10 @@ interface ReturnProps extends Filters {
 	setPizzaTypes: (value: string) => void;
 	setSizes: (value: string) => void;
 	setSelectedIngredients: (value: string) => void;
+	setSort: (value: string) => void;
 }
 
 export const useFilters = (): ReturnProps => {
-	const router = useRouter();
-
 	const searchParams = useSearchParams() as unknown as Map<
 		keyof QueryFilters,
 		string
@@ -58,8 +60,10 @@ export const useFilters = (): ReturnProps => {
 	});
 
 	const updatePrice = (name: keyof PriceProps, value: number) => {
-		setPrices(prev => ({ ...prev, [name]: value }));
+		setPrices((prev) => ({ ...prev, [name]: value }));
 	};
+
+	const [sort, setSort] = useState(searchParams.get("sort")) || undefined;
 
 	return useMemo(
 		() => ({
@@ -67,11 +71,13 @@ export const useFilters = (): ReturnProps => {
 			pizzaTypes,
 			selectedIngredients,
 			prices,
+			sort,
 			setPrices: updatePrice,
 			setPizzaTypes: togglePizzaTypes,
 			setSizes: toggleSizes,
 			setSelectedIngredients: toggleIngredients,
+			setSort,
 		}),
-		[sizes, pizzaTypes, selectedIngredients, prices]
+		[sizes, pizzaTypes, selectedIngredients, prices, sort]
 	);
 };

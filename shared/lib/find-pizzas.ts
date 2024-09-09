@@ -2,7 +2,7 @@ import { prisma } from "@/prisma/prisma-client";
 
 export interface GetSearchParams {
 	query?: string;
-	sortBy?: string;
+	sort?: string;
 	sizes?: string;
 	pizzaTypes?: string;
 	ingredients?: string;
@@ -13,6 +13,8 @@ export interface GetSearchParams {
 const DEFAULT_MIN_PRICE = 0;
 const DEFAULT_MAX_PRICE = 1000;
 
+const DEFAULT_POPULAR_SORT = "desc";
+
 export const findPizzas = async (params: GetSearchParams) => {
 	const sizes = params.sizes?.split(",").map(Number);
 	const pizzaTypes = params.pizzaTypes?.split(",").map(Number);
@@ -21,11 +23,14 @@ export const findPizzas = async (params: GetSearchParams) => {
 	const minPrice = Number(params.priceFrom) || DEFAULT_MIN_PRICE;
 	const maxPrice = Number(params.priceTo) || DEFAULT_MAX_PRICE;
 
+	const sort = params.sort || DEFAULT_POPULAR_SORT;
+	console.log(sort);
+
 	const categories = await prisma.category.findMany({
 		include: {
 			products: {
 				orderBy: {
-					id: "desc",
+					id: sort === "desc" ? "desc" : "asc",
 				},
 				where: {
 					ingredients: ingredientsIdArr
