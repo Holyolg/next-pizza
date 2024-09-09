@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import {
 	Container,
 	Filters,
+	Stories,
 	Title,
 	TopBar,
 } from "../../shared/components/shared";
@@ -21,8 +22,12 @@ export default async function Home({
 				<Title text="Все пиццы" size="lg" className="font-extrabold" />
 			</Container>
 			<TopBar
-				categories={categories.filter(category => category.products.length > 0)}
+				categories={categories.filter(
+					(category) => category.products.length > 0
+				)}
 			/>
+
+			<Stories />
 
 			<Container className="pb-14 mt-10">
 				<div className="flex gap-[60px]">
@@ -39,7 +44,7 @@ export default async function Home({
 					<div className="flex-1">
 						<div className="flex flex-col gap-16">
 							{categories.map(
-								category =>
+								(category) =>
 									category.products.length > 0 && (
 										<ProductsGroupList
 											key={category.id}
