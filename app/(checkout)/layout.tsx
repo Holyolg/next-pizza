@@ -1,4 +1,5 @@
 import { Container, Header } from "@/shared/components/shared";
+import { Suspense } from "react";
 
 export const metadata = {
 	title: "Next.js",
@@ -13,7 +14,13 @@ export default function CheckoutLayout({
 	return (
 		<main className="min-h-screen bg-[#f3f1ed]">
 			<Container>
-				<Header className="border-gray-200" hasSearch={false} hasCart={false} />
+				<Suspense>
+					<Header
+						className="border-gray-200"
+						hasSearch={false}
+						hasCart={false}
+					/>
+				</Suspense>
 				{children}
 			</Container>
 		</main>
